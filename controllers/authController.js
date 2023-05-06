@@ -1,5 +1,4 @@
 import User from '../models/User.js';
-import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
 // user registration
@@ -47,11 +46,8 @@ export const login = async (req, res) => {
             });
         }
 
-        // if user exists, check (or compare) their password
-        const isCorrectPassword = await bcrypt.compare(req.body.password, user.password);
-
         // if the password is incorrect
-        if (!isCorrectPassword)
+        if(req.body.password !== user.password)
         {
             return res.status(401)
             .json({
